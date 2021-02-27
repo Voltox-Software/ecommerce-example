@@ -15,7 +15,7 @@ module.exports = (err, req, res, next) => {
     else if (err.name === 'UnauthorizedError') {
         return res.status(401).json({
             status: "error",
-            message:"Unauthorized",
+            message: "Unauthorized",
             code: 401,
         })
     } else {

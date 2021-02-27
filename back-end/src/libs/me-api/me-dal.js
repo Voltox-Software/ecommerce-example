@@ -40,10 +40,17 @@ module.exports = {
     },
     addProductToCart: async ({ UserId, ProductId }) => {
         let cart = await getUserActiveCart({ UserId, not_json: true });
+        let already_in = await CartItem.count({ where: { CartId: cart.id, ProductId }});
+        if (already_in) throw new ErrorHandler(403,"NotAllowed", [ "Product is already in cart"]);
         let cart_item = await CartItem.create({
             ProductId, CartId: cart.id
         })
         return await getUserActiveCart({ UserId, not_json: true });
+    },
+    isProductInCart: async ({ UserId, ProductId }) => {
+        let cart = await getUserActiveCart({ UserId, not_json: true });
+        let already_in = await CartItem.count({ where: { CartId: cart.id, ProductId }});
+        return Boolean(already_in);
     }
     // getMyCartItemsInfo,
     // removeBoxesFromCart: async ({

@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 
 const formSchema = yup.object().shape({
     email: yup.string().email().required(),
-    full_name: yup.string().required().min(5),
+    first_name: yup.string().required().min(5),
+    last_name: yup.string().required().min(5),
     password: yup.string().min(8).required(),
     confirm_password: yup.string().equalTo(yup.ref('password'))
 })
@@ -16,7 +17,8 @@ class Register extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            full_name: "",
+            first_name: "",
+            last_name: "",
             email: "",
             password: "",
             confirm_password: "",
@@ -33,9 +35,9 @@ class Register extends React.Component {
             this.setState({ clientValidationErrors: err.errors })
             return;
         }
-        let { full_name, email, password } = this.state;
+        let { first_name, last_name, email, password } = this.state;
         console.log(this.state)
-        this.props.postUsers({ full_name, email, password });
+        this.props.postUsers({ first_name, last_name, email, password });
     }
     getErrors = () => {
         if (this.state.clientValidationErrors.length) return this.state.clientValidationErrors;
@@ -60,7 +62,8 @@ class Register extends React.Component {
               </ValidationErrors>
 
               <div className="full-page__label">
-                <input onKeyPress={this.handleKeyPress} value={this.state.full_name} onChange={this.onChange("full_name")} type="text" placeholder="Full Name" />
+                <input onKeyPress={this.handleKeyPress} value={this.state.first_name} onChange={this.onChange("first_name")} type="text" placeholder="First Name" />
+                <input onKeyPress={this.handleKeyPress} value={this.state.last_name} onChange={this.onChange("last_name")} type="text" placeholder="Last Name" />
                 <input onKeyPress={this.handleKeyPress} value={this.state.email} onChange={this.onChange("email")} type="email" placeholder="Email" />
                 <input onKeyPress={this.handleKeyPress} value={this.state.password} onChange={this.onChange("password")} type="password" placeholder="Password" />
                 <input onKeyPress={this.handleKeyPress} value={this.state.confirm_password} onChange={this.onChange("confirm_password")} type="password" placeholder="Confirm Password" />

@@ -1,6 +1,5 @@
 
-
-const { Cart, CartItem } = require("../../models");
+const { Cart, CartItem, Product } = require("../../models");
 const { ErrorHandler } = require("../../utils/error");
 // const { getCartFloorItemWithMoreInfo } = require("./utils");
 
@@ -15,21 +14,12 @@ module.exports = {
         let cart = await Cart.findOne({
             where, include: [ 
                 {
-                    model: CartItem
+                    model: CartItem,
+                    include: Product
                 }
              ]
         })
         return cart;
-        // if (not_json) return cart
-        // cart = JSON.parse(JSON.stringify(cart)) 
-        // if (cart && cart.CartFloorItems) {
-        //     for (let i in cart.CartFloorItems){
-        //         cart.CartFloorItems[i] = await getCartFloorItemWithMoreInfo(cart.CartFloorItems[i])
-        //     }
-        // }
-        // // await Promise.all(cart.CartFloorItems)
-        // // console.log(cart.CartFloorItems,"cart.CartFloorItems")
-        // return cart;
     },
     createCart: async ({ 
         UserId

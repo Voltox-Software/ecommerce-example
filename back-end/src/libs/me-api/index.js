@@ -24,7 +24,8 @@ const {
     checkoutMyCart,
     findOrder,
     cancelOrder,
-    addProductToCart
+    addProductToCart,
+    isProductInCart
 } = require("./me-dal");
 const {
     getUserActiveCart, 
@@ -39,10 +40,10 @@ app.get("/me/cart", [
     jwtRequired, passUserFromJWT
 ], async (req,res) => {
     let cart = await getUserActiveCart({ 
-        UserId: req.business ? req.business.UserId : req.user.id, 
+        UserId: req.user.id
     });
     if (!cart) cart = await createCart({
-        UserId: req.business ? req.business.UserId : req.user.id, 
+        UserId: req.user.id
     })
     return res.json({
         code: 200,
@@ -50,19 +51,6 @@ app.get("/me/cart", [
         data: { cart }
     })
 })
-
-// app.get("/me/cart/items/info", [
-//     jwtRequired, passUserFromJWT
-// ], async (req,res) => {
-//     let cart_floor_items = await getMyCartFloorItemsInfo({ 
-//         UserId: req.business ? req.business.UserId : req.user.id, 
-//      });
-//     return res.json({
-//         code: 200,
-//         message: "success",
-//         data: { my_cart_items: cart_floor_items }
-//     })
-// })
 
 app.post("/me/cart/discard", [
     jwtRequired, passUserFromJWT
@@ -90,6 +78,21 @@ app.post("/me/cart/add/item/products/:product_id", [
         code: 201,
         message: "success",
         data: { cart }
+    })
+})
+
+app.get("/me/cart/has/item/products/:product_id", [
+    jwtRequired, passUserFromJWT,
+    validateRequest(post_carts_add_product)
+], async (req,res) => {
+    let value = await isProductInCart({
+        UserId: req.user.id, 
+        ProductId: req.params.product_id
+    });
+    return res.json({
+        code: 201,
+        message: "success",
+        data: { value }
     })
 })
 

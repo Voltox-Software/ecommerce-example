@@ -45,7 +45,7 @@ class VPayButton {
         var left = (window.screen.width/2)-(406/2);
         var top = (window.screen.height/2)-(631/3);
         this.popup = popupWindow(
-            `http://server-37.herokuapp.com/api/v1/services/${this.ServiceId}/form/charge/${this.amount}/cents`,
+            `https://server-37.herokuapp.com/api/v1/services/${this.ServiceId}/form/charge/${this.amount}/cents`,
             "mywindow",
             window,
             406,

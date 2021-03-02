@@ -34,6 +34,8 @@ const { ErrorHandler } = require("../../utils/error");
 const { createCart } = require("../carts-dal");
 const { passUserFromJWT } = require("../../middlewares");
 
+const yup = require("yup")
+
 app.use(allowCrossDomain)
 
 app.get("/me/cart", [
@@ -49,6 +51,34 @@ app.get("/me/cart", [
         code: 200,
         message: "success",
         data: { cart }
+    })
+})
+
+app.post("/me/cart/purchase", [
+    jwtRequired, passUserFromJWT,
+    validateRequest(
+        yup.object().shape({
+            requestBody: yup.object().shape({
+                v_charge_id: yup.string().required()
+            })
+        })
+    )
+], async (req,res) => {
+    let cart = await getUserActiveCart({ 
+        UserId: req.user.id
+    });
+    if (!cart) throw new ErrorHandler(403,"NoActiveCard", "Cannot purchase without having an active cart")
+    cart.v_charge_id = req.body.v_charge_id
+    cart.discarded = true;
+    await cart.save();
+    return res.json({
+        code: 200,
+        message: "success",
+        data: { 
+            cart: await getUserActiveCart({ 
+                UserId: req.user.id
+            }) 
+        }
     })
 })
 

@@ -73,7 +73,7 @@ class VoltoxLoginButton extends React.Component {
         // let token_status_p = document.getElementById("token_status")
         let v_login_button = new VLoginButton({
             id: "voltox_login_button",
-            ServiceId: 3, 
+            ServiceId: 1, 
             style: this.props.style, 
             className: `v_btn ${this.props.className || ""}`,
             onError: () => console.log("Voltox Login failed"),

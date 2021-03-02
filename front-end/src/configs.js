@@ -1,11 +1,14 @@
 
 let hostname = window.location.host.split(":")[0]
 
-let baseURL;
+let url;
 
 if (hostname === "localhost") {
-    baseURL = "http://localhost:4848/api/v1"
+    url = "http://localhost:4848/api/v1"
 } else {
-    baseURL = "http://3.15.153.64:4000/"
+    url = "http://3.15.153.64:4000/"
 }
-export const baseURL = "http://localhost:4848/api/v1"
+export const baseURL = url
+
+// mysql://gjergjk71:gjergji.123@ec2-18-216-25-193.us-east-2.compute.amazonaws.com:3306/v_checkout
+// mysql://rxen8ekcio14bznd:clzef1ivs4ltj4ks@jhdjjtqo9w5bzq2t.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/koolnd23w3mhnmtg

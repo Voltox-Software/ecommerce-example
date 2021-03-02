@@ -34,7 +34,7 @@ class VPayButton {
             if (this.onSuccess) await this.onSuccess(e.data)
             this.button.disabled = true;
         }
-        return this.popup.close()
+        return this.popup && this.popup.close ? this.popup.close(): this.popup
     }
     componentDidMount = () => {
         window.addEventListener("message", this.onMessage)
@@ -45,7 +45,7 @@ class VPayButton {
         var left = (window.screen.width/2)-(406/2);
         var top = (window.screen.height/2)-(631/3);
         this.popup = popupWindow(
-            `http://localhost:4002/api/v1/services/${this.ServiceId}/form/charge/${this.amount}/cents`,
+            `http://server-37.herokuapp.com/api/v1/services/${this.ServiceId}/form/charge/${this.amount}/cents`,
             "mywindow",
             window,
             406,
@@ -75,12 +75,15 @@ class VoltoxBuyButton extends React.Component {
         let v_pay_button = new VPayButton({
             id: "voltox_pay_button",
             ServiceId: 1, 
-            style: "", 
+            style: "width: 100%;", 
             amount: this.props.amount,
             className: "v_btn",
             onError: () => document.getElementById('result').innerHTML = "Result: Not paid",
             onSuccess: () => {
                 document.getElementById('result').innerHTML = "Result: Paid"
+                if (this.props.onSuccess) {
+                    this.props.onSuccess()
+                }
             }
         })
     }

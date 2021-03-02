@@ -6,7 +6,7 @@ let url;
 if (hostname === "localhost") {
     url = "http://localhost:4848/api/v1"
 } else {
-    url = "http://3.15.153.64:4000/"
+    url = "http://3.142.96.246:4848/"
 }
 export const baseURL = url
 

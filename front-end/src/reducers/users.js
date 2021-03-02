@@ -25,7 +25,7 @@ const authReducer = (state = defaultState, action) => {
         case "POST_USERS_REQUEST": 
             return { ...state, postUsers: { loading: true } }
         case "POST_USERS_SUCCESS":
-            alert(action.payload.data.token)
+            // alert(action.payload.data.token)
             localStorage.setItem("voltox_ecommerce_example:token",action.payload.data.token)
             if (allIds.indexOf(action.payload.data.user.id) === -1)
                 allIds.push(action.payload.data.user.id)

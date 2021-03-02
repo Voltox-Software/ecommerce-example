@@ -12,6 +12,11 @@ class Login extends React.Component {
             email: "",
             password: ""
         }
+        this.errors = {
+            "requestBody.email is a required field": "Email is a required field",
+            "requestBody.password must be at least 8 characters": "Password must be at least 8 characters long.",
+            "requestBody.password is a required field": "Password is a required field"
+        }
     }
     onChange = key => ({ target }) => this.setState({ [key]: target.value })
     onSubmit = e => {
@@ -24,7 +29,57 @@ class Login extends React.Component {
           this.onSubmit(e)
         }
       }
+    getError = err => {
+        return this.errors[err] || err
+    }
     render(){
+        return (
+            <div className="text-center" >
+                <form className="form-signin">
+                    <img className="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width={72} height={72} />
+                    <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+                    <ValidationErrors errors={this.props.validationErrors}>
+                                { error => <div className="alert alert-danger">{this.getError(error)}<br/></div>}
+                        </ValidationErrors>
+
+                    <label htmlFor="inputEmail" className="sr-only">Email address</label>
+                    <input
+                        onKeyPress={this.handleKeyPress} 
+                        value={this.state.email} 
+                        onChange={this.onChange("email")} 
+                        type="email"
+                        id="inputEmail"
+                        className="form-control"
+                        placeholder="Email address" 
+                        required autoFocus 
+                    />
+                    <label htmlFor="inputPassword" className="sr-only">Password</label>
+                    <input
+                        onKeyPress={this.handleKeyPress} 
+                        value={this.state.password} 
+                        onChange={this.onChange("password")} 
+                        type="password"
+                        id="inputPassword"
+                        className="form-control"
+                        placeholder="Password"
+                        required 
+                    />
+                    <div className="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" defaultValue="remember-me" /> Remember me
+                    </label>
+                    </div>
+                    <button type="submit" onClick={this.onSubmit} className="btn btn-sm btn-primary btn-block">{ this.props.loading ? "Signing in..." : "Sign In" }</button>
+                    <Link style={{ color:"white", textDecoration: "none" }} to="/register">
+                        <button style={{ marginTop: 5 }} type="buttons" className="btn btn-sm btn-primary btn-block">
+                                Sign Up
+                        </button>
+                    </Link>
+                    <VoltoxLoginButton style="margin-top: 10px;" className="btn btn-block"/>
+                    <p className="mt-5 mb-3 text-muted">© 2017-2018</p>
+                </form>
+            </div>
+        )
         return (
             <div className="full-page login">
                 <div className="full-page__left">

@@ -1,6 +1,8 @@
 import React from "react";
 import FetchMyCart from "../../components/FetchMyCart";
 import VoltoxBuyButton from "../../components/VoltoxBuyButton";
+import axios from "../../axios";
+import { Link } from "react-router-dom";
 
 class MyCart extends React.Component {
     constructor(props){
@@ -9,10 +11,21 @@ class MyCart extends React.Component {
 
         }
     }
+    onSuccessPurchase = async () => {
+        let res = await axios("/me/cart/purchase", {
+            method: "POST",
+            data: { v_charge_id: "not-implemented" },
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        console.log({res})
+        document.location.href="/";
+    }
     render(){
         return (
             <React.Fragment>
-                dsadas`
+                My Cart<hr/>
                 <FetchMyCart>
                     { ({ loading, error, my_cart }) => {
                         if (loading) return null;
@@ -21,9 +34,14 @@ class MyCart extends React.Component {
                         let products = CartItems.map(cart_item => cart_item.Product);
                         let total_price = 0;
                         products.map(product => total_price += product.price)
+                        if (!products.length) return (
+                            <React.Fragment>
+                                <p>No items in cart</p>
+                                <Link to="/">Go to products</Link>
+                            </React.Fragment>
+                        )
                         return (
                             <div>
-                                <hr/>
                                 {products.map(product => {
                                     return (
                                         <div>
@@ -33,8 +51,13 @@ class MyCart extends React.Component {
                                     )
                                 })}
                                 <hr/>
-                                Total price: ${total_price / 100}<br/>
-                                <VoltoxBuyButton amount={total_price}/>
+                                <div className="btn-block">
+                                    Total price: ${total_price / 100}<br/>
+                                    <VoltoxBuyButton 
+                                        amount={total_price}
+                                        onSuccess={this.onSuccessPurchase}
+                                    />
+                                </div>
                             </div>
                         )
                     }}

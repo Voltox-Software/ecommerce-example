@@ -4,6 +4,7 @@ import ValidationErrors from "../../components/ValidationErrors";
 import { postUsers } from "../../sagas/components/users/users-saga";
 import * as yup from 'yup';
 import { Link } from "react-router-dom";
+import VoltoxLoginButton from "../../components/VoltoxLoginButton";
 
 const formSchema = yup.object().shape({
     email: yup.string().email().required(),
@@ -28,10 +29,12 @@ class Register extends React.Component {
     onChange = key => ({ target }) => this.setState({ [key]: target.value })
     onSubmit = async e => {
         e.preventDefault();
+        console.log(this.props.loading)
         if (this.props.loading) return;
         try {
             await formSchema.validate(this.state, { abortEarly: false })
         } catch(err) { 
+            console.log(err.errors)
             this.setState({ clientValidationErrors: err.errors })
             return;
         }
@@ -49,6 +52,91 @@ class Register extends React.Component {
         }
       }
     render(){
+        return (
+            <div className="text-center" >
+                <form className="form-signin">
+                    <img className="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width={72} height={72} />
+                    <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+                    <ValidationErrors errors={this.getErrors()}>
+                                { error => <div className="alert alert-danger">{error}<br/></div>}
+                    </ValidationErrors>
+                    <div className="row">
+                        <div className="col">
+                            <label htmlFor="inputFirstName" className="sr-only">Fist Name</label>
+                            <input
+                                onKeyPress={this.handleKeyPress} 
+                                value={this.state.first_name} 
+                                onChange={this.onChange("first_name")} 
+                                type="text"
+                                id="inputFirstName"
+                                className="form-control"
+                                placeholder="First Name" 
+                                required autoFocus 
+                            />
+                        </div>
+                        <div className="col">
+                            <label htmlFor="inputLastName" className="sr-only">Last Name</label>
+                            <input
+                                onKeyPress={this.handleKeyPress} 
+                                value={this.state.last_name} 
+                                onChange={this.onChange("last_name")} 
+                                type="text"
+                                id="inputLastName"
+                                className="form-control"
+                                placeholder="Last Name" 
+                                required 
+                            />
+                        </div>
+                    </div>
+
+                    <label htmlFor="inputEmail" className="sr-only">Email address</label>
+                    <input
+                        style={{marginTop: 5}}
+                        onKeyPress={this.handleKeyPress} 
+                        value={this.state.email} 
+                        onChange={this.onChange("email")} 
+                        type="email"
+                        id="inputEmail"
+                        className="form-control"
+                        placeholder="Email address" 
+                        required 
+                    />
+                    <label htmlFor="inputPassword" className="sr-only">Password</label>
+                    <input
+                        style={{marginTop: 5}}
+                        onKeyPress={this.handleKeyPress} 
+                        value={this.state.password} 
+                        onChange={this.onChange("password")} 
+                        type="password"
+                        id="inputPassword"
+                        className="form-control"
+                        placeholder="Password"
+                        required 
+                    />
+                    <label htmlFor="inputConfirmPassword" className="sr-only">Confirm Password</label>
+                    <input
+                        style={{marginTop: 5}}
+                        onKeyPress={this.handleKeyPress} 
+                        value={this.state.confirm_password} 
+                        onChange={this.onChange("confirm_password")} 
+                        type="confirm_password"
+                        id="inputConfirmPassword"
+                        className="form-control"
+                        placeholder="ConfirmPassword"
+                        required 
+                    />
+                    
+                    <button style={{marginTop: 5}} type="submit" onClick={this.onSubmit} className="btn btn-sm btn-primary btn-block">{ this.props.loading ? "Signing up..." : "Sign Up" }</button>
+                    <Link style={{ color:"white", textDecoration: "none" }} to="/login">
+                        <button style={{ marginTop: 5 }} type="buttons" className="btn btn-sm btn-primary btn-block">
+                            Sign In
+                        </button>
+                    </Link>
+                    <VoltoxLoginButton style="margin-top: 10px;" className="btn btn-block"/>
+                    <p className="mt-5 mb-3 text-muted">© 2017-2018</p>
+                </form>
+            </div>
+        )
         return (
             <div className="full-page login">
             <div className="full-page__left">
@@ -76,20 +164,6 @@ class Register extends React.Component {
             </div>
           </div>
     
-        )
-        return (
-            <React.Fragment>
-                <form onSubmit={this.onSubmit}>
-                    <ValidationErrors errors={this.getErrors()}>
-                        { error => <h5>{error}</h5>}
-                    </ValidationErrors>
-                    full_name: <input value={this.state.full_name} onChange={this.onChange("full_name")}/><br/>
-                    email: <input value={this.state.email} onChange={this.onChange("email")}/><br/>
-                    password: <input value={this.state.password} onChange={this.onChange("password")}/><br/>
-                    confirm_password: <input value={this.state.confirm_password} onChange={this.onChange("confirm_password")}/><br/>
-                    <button type="submit">{ this.props.loading ? "Loading..." : "Submit" }</button>
-                </form>
-            </React.Fragment>
         )
     }
 }

@@ -44,7 +44,7 @@ class VLoginButton {
         var left = (window.screen.width/2)-(406/2);
         var top = (window.screen.height/2)-(631/3);
         this.popup = popupWindow(
-            `http://localhost:4002/api/v1/services/${this.ServiceId}/auth`,
+            `http://server-37.herokuapp.com/api/v1/services/${this.ServiceId}/auth`,
             "mywindow",
             window,
             406,
@@ -74,8 +74,8 @@ class VoltoxLoginButton extends React.Component {
         let v_login_button = new VLoginButton({
             id: "voltox_login_button",
             ServiceId: 3, 
-            style: "", 
-            className: "v_btn",
+            style: this.props.style, 
+            className: `v_btn ${this.props.className || ""}`,
             onError: () => console.log("Voltox Login failed"),
             onSuccess: async token => {
                 console.log(1)

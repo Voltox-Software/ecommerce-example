@@ -41,9 +41,7 @@ class BuyProductButton extends React.Component {
         }
         let onClick = already_bought ? undefined : this.addToCart
         return (
-            <button onClick={onClick} className="btn" style={{
-                backgroundColor
-            }}>
+            <button disabled={Boolean(backgroundColor)} onClick={onClick} className="btn btn-light text-primary btn-sm">
                 {text}
             </button>
         )

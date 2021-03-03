@@ -24,6 +24,7 @@ class BuyProductButton extends React.Component {
             "Authorization": "Bearer " + localStorage.getItem("voltox_ecommerce_example:token")
         } })
         this.setAlreadyBought();
+        this.props.getCartItemsCount();
     }
     render(){
         let { already_bought } = this.state;
@@ -41,7 +42,7 @@ class BuyProductButton extends React.Component {
         }
         let onClick = already_bought ? undefined : this.addToCart
         return (
-            <button disabled={Boolean(backgroundColor)} onClick={onClick} className="btn btn-light text-primary btn-sm">
+            <button style={{cursor:"pointer"}} disabled={Boolean(backgroundColor)} onClick={onClick} className="btn btn-light text-primary btn-sm">
                 {text}
             </button>
         )

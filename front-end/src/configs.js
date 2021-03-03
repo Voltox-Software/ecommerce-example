@@ -4,9 +4,10 @@ let hostname = window.location.host.split(":")[0]
 let url;
 
 if (hostname === "localhost") {
+    // url = "http://3.142.96.246:4848/api/v1"
     url = "http://localhost:4848/api/v1"
 } else {
-    url = "http://3.142.96.246:4848/"
+    url = "http://3.142.96.246:4848/api/v1"
 }
 export const baseURL = url
 

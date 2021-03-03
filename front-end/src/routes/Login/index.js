@@ -75,7 +75,7 @@ class Login extends React.Component {
                                 Sign Up
                         </button>
                     </Link>
-                    <VoltoxLoginButton style="margin-top: 10px;" className="btn btn-block"/>
+                    <VoltoxLoginButton style="margin-top: 10px;" className="btn-block"/>
                     <p className="mt-5 mb-3 text-muted">© 2017-2018</p>
                 </form>
             </div>

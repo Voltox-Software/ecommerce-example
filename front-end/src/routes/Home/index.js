@@ -8,6 +8,20 @@ import injectUser from "../../HoC/injectUser";
 class Home extends React.Component {
     render(){
       return (
+          <section className="text-center mb-4">
+            <br/><br/>
+            <div className="row wow fadeIn" style={{visibility: 'visible', animationName: 'fadeIn'}}>
+                <FetchProducts>
+                  {({ loading, error, products }) => {
+                    if (loading) return "Loading...";
+                    if (error) return <p>{error.message}</p>
+                    return products.map(product => <ProductItem getCartItemsCount={this.props.getCartItemsCount} product={product}/>)
+                  }}
+                </FetchProducts>
+            </div>
+          </section>
+      )
+      return (
         <div className="col">
           <div className="col row">
             <div className="col">

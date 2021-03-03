@@ -16,7 +16,7 @@ let only_not_logged_in = [
     // { path: "/register", Component: lazy(() => import('./Register')) },
 ]
 
-export default () => {
+export default routes_props => {
     return (
         <Suspense fallback={""}>
             {
@@ -24,7 +24,7 @@ export default () => {
                         <Route key={i} exact path={path} component={props => {
                             return (
                                 <LoggedInOnly redirect_to="/login">
-                                    <Component {...props}/>
+                                    <Component getCartItemsCount={routes_props.getCartItemsCount} {...props}/>
                                 </LoggedInOnly>
                             )
                         }} />
